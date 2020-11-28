@@ -1,0 +1,21 @@
+@charset "ISO-8859-1";
+body {
+	font-family: 'Poppins', sans-serif;
+}
+footer{
+    background-color: #ffff;
+}
+
+.footer-link{
+    color: rgb(12, 2, 121);
+    font-size: 12px;
+}
+
+.smaller{
+    font-size: smaller;
+}
+
+.copyright{
+    font-size: 9px;
+    background-color: #f0f0f0;;
+}

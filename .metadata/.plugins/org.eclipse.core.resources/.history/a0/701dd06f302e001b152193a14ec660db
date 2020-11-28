@@ -1,0 +1,23 @@
+function showAlertBeforeSave(callback) {
+    swal({
+            title: "Xác nhận đặt hàng",
+            text: "Bạn có chắc chắn đặt đơn hàng này?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Hủy bỏ",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger"
+        })
+        .then(function(isCofirm) {
+            if (isCofirm) {
+                callback()
+            }
+        })
+}
+var pay = document.querySelector("#pay");
+pay.addEventListener("click", e=>{
+    showAlertBeforeSave((request, Response)=>{
+        response.se
+    })
+})

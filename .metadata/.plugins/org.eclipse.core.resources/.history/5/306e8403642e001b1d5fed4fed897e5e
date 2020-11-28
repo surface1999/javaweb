@@ -1,0 +1,85 @@
+package controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import bean.SachBean;
+import bean.loaiBean;
+import bo.SachBo;
+import bo.khachHangBo;
+import bo.loaiBo;
+
+@WebServlet("/category")
+public class loaiController extends HttpServlet {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		loaiBo loai = new loaiBo();
+		ArrayList<loaiBean> listLoai = new ArrayList<loaiBean>();
+		String ma = request.getParameter("ma");
+		SachBo sach = new SachBo();
+		ArrayList<SachBean> listSach = new ArrayList<SachBean>();
+		String id = null;
+		String makh = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("id")) {
+						try {
+							khachHangBo kh = new khachHangBo();
+							makh = cookie.getValue();
+							id = kh.searchName(makh);
+						} catch (ClassNotFoundException | SQLException e) {
+							response.getWriter().println("Loi: " + e.getMessage());
+						}
+				}
+			}
+		}
+		try {
+			listLoai = loai.getLoai();
+			request.setAttribute("listLoai", listLoai);
+			request.setAttribute("id", id);
+			request.setAttribute("userID", makh);
+			listSach = sach.getSachTheoMa(ma);
+			if (listSach.size() > 0) {
+				int sizePage = 12;
+				int size = listSach.size();
+				int page = 1;
+				int countPage = size / sizePage;
+				if (size % sizePage != 0)
+					countPage++;
+				if (request.getParameter("page") != null) {
+					page = Integer.parseInt(request.getParameter("page"));
+				}
+				request.setAttribute("listSach", sach.pagination(listSach, page, sizePage));
+				request.setAttribute("countItems", listSach.size());
+				request.setAttribute("page", page);
+				request.setAttribute("loai", "loai");
+				request.setAttribute("ma", ma);
+				request.setAttribute("type", "loai");
+				request.setAttribute("countPage", countPage);
+			}
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		} catch (SQLException e) {
+			response.getWriter().println("Loi: " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

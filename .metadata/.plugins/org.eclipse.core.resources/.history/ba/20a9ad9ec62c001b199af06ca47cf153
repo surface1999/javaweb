@@ -1,0 +1,71 @@
+package controller;
+
+import java.io.Console;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Enumeration;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import bean.khachHangBean;
+import bo.khachHangBo;
+
+@WebServlet("/sign-in")
+public class signInController extends HttpServlet {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("sign-in.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		int f = 0, i = 0;
+		String[] paramValue = null;
+		String[] paramValues = new String[7];
+		Enumeration paramNames = request.getParameterNames();
+		while (paramNames.hasMoreElements()) {
+			String paramName = (String) paramNames.nextElement();
+			paramValue = request.getParameterValues(paramName);
+			paramValues[i] = paramValue[0];
+			if (paramValue[0].trim().equals("")) {
+				f = 1;
+			}
+			i++;
+		}
+
+
+		if (f == 1) {
+			request.setAttribute("warning", new String[] { "Bạn chưa nhập đầy đủ thông tin!" });
+		}
+		else {	
+			if(i != 1) {
+				khachHangBo khB = new khachHangBo();
+				if(paramValues[5].trim().equals(paramValues[6].trim())) {
+					khachHangBean kh = new khachHangBean(0, paramValues[0], paramValues[1], paramValues[2], paramValues[3], paramValues[4], paramValues[5]);
+						try {
+							khB.signIn(kh);
+							response.sendRedirect("login");
+							return;
+						} catch (ClassNotFoundException e) {
+							request.setAttribute("warning", new String[] {"Tên đăng nhập đã tồn tại!" });
+						}
+						catch (Exception e) {
+							request.setAttribute("warning", new String[] { "Tên đăng nhập đã tồn tại!" });
+						}
+				}
+				else {
+					request.setAttribute("warning", new String[] { "Mật khẩu không khớp!" });
+				}
+			}
+		}
+		request.getRequestDispatcher("sign-in.jsp").forward(request, response);
+		
+	}
+
+}

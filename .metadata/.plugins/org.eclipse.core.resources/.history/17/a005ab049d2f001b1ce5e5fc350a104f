@@ -1,0 +1,115 @@
+<%@page import="bean.sachdetailBean"%>
+<%@page import="controller.sachdetail"%>
+<%@page import="func.funct"%>
+<%@page import="bean.SachBean"%>
+<%@ page pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<%@page import="bean.loaiBean"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="bo.loaiBo"%>
+<html>
+<head>
+<meta charset="utf-8">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+	rel="stylesheet">
+<script src="https://kit.fontawesome.com/7e31e7a48c.js"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/Style1.css">
+<title>Surface1989</title>
+</head>
+<body class="bg-light">
+	<%@include file="navbar.jsp"%>
+	<%
+		funct f = new funct();
+	%>
+	<div class="my-4">
+
+		<div class="row" style="background-color: #f0f0f0; margin: 0 6rem;">
+			<div class="col-md-3 bg-light">
+				<ul class="category p-0 m-0 " style="width: 100%;">
+					<%
+						funct fun = new funct();
+						ArrayList<loaiBean> listLoai = null;
+						if (request.getAttribute("listLoai") != null) {
+							listLoai = (ArrayList<loaiBean>) request.getAttribute("listLoai");
+							for (loaiBean loai : listLoai) {
+					%>
+					<li class="lk"><a
+						href="<%="category?ma=" + loai.getMaLoai()%>"><div
+								class="py-1 pl-3" style="width: 100%;"><%=loai.getTenLoai()%></div></a></li>
+					<%
+						}
+						}
+					%>
+				</ul>
+			</div>
+
+			<div class="col-md-9 px-0">
+				<%
+					sachdetailBean sach = null;
+					if (request.getAttribute("sach") != null) {
+						sach = (sachdetailBean) request.getAttribute("sach");
+				%>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="m-4">
+							<img alt="<%=sach.getTensach()%>" src="<%=sach.getAnh()%>"
+								style="width: 100%;">
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="m-4">
+							<h3>THÔNG TIN CHI TIẾT SÁCH</h3>
+							<div>
+								<div style="width: 60%; float: left; padding: 10px">
+									<h4 style="font-weight: bold; color: red">
+										Tên sách:
+										<%=sach.getTensach()%>
+									</h4>
+									<p style="text-align: justify">
+										<span style="font-weight: bold"> Mô tả: </span>Để thành công
+										trong môi trường kinh doanh cạnh tranh hiện nay, các giám đốc
+										dự án phải đạt được kết quả trong phạm thời gian và ngân sách
+										đưa ra. Biết cách áp dụng các quy trình, phương pháp và kỹ
+										thuật chỉ dẫn trong cuốn Quản Lý Dự Án này, bạn sẽ tăng tối đa
+										khả năng thực hiện công việc và đảm bảo đạt kết quả tối ưu khi
+										thực hiện dự án. Được thiết kế phù hợp với tất cả các nhà quản
+										lý ở đủ mọi trình độ, cẩm nang này sẽ trang bị cho bạn những
+										kiến thức cần thiết trong việc quản lý mọi dự án, dù lớn hay
+										nhỏ, để đạt đến thành công. Từ việc khởi xướng một dự án, thúc
+										đẩy, phát triển nhóm dự án đến việc vượt qua những khó khăn,
+										trở ngại; mỗi một khía cạnh của quản lý dự án chuyện nghiệp
+										đều được trình bày một cách rõ nét. Cẩm nang bao gồm các hướng
+										dẫn từng bước về hoạch định dự án và 101 mẹo vặt cung cấp cho
+										bạn những lời khuyên thực tế.
+									</p>
+									<h4 style="font-weight: bold; color: red">
+										Tác giả:
+										<%=sach.getTacgia()%>
+									</h4>
+									<p style="font-weight: bold">
+										Giá bán: <span style="color: red; font-size: 16pt"><%=fun.formart(sach.getGia())%>
+											VNĐ </span>
+									</p>
+								</div>
+								<div>
+									<div id="Datmua">
+										<a
+											href="/GioHang/ThemGiohang?iMasach=11&amp;strURL=http%3A%2F%2Flocalhost%3A1456%2FBookStore%2FDetails%2F11"
+											class="list-group-item"> ĐẶT MUA </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%
+					}
+				%>
+			</div>
+		</div>
+	</div>
+	<%@include file="footer.jsp"%>
+</body>
+</html>

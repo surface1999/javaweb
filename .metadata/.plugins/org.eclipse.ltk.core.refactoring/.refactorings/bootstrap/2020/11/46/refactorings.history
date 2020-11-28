@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;General&apos; to &apos;QuanLyBanSach/src&apos;&#x0D;&#x0A;- Original project: &apos;bootstrap&apos;&#x0D;&#x0A;- Destination element: &apos;QuanLyBanSach/src&apos;&#x0D;&#x0A;- Original element: &apos;bootstrap/src/General&apos;" description="Copy package" destination="=QuanLyBanSach/src" element1="/src&lt;General" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1604977506079" version="1.0"/>
+</session>

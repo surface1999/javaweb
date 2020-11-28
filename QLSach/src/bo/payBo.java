@@ -1,0 +1,29 @@
+package bo;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import bean.billBean;
+import bean.cartBean;
+import bean.purchaseHistoryBean;
+import dao.payDao;
+
+public class payBo {
+	payDao pay = new payDao();
+	public void pay(String userID, ArrayList<cartBean> carts) throws ClassNotFoundException, SQLException {
+		pay.pay(userID, carts);
+	}
+	
+	public ArrayList<billBean> getHistory(String userID) throws SQLException, ClassNotFoundException{
+		return pay.getHistory(userID);
+	}
+	public int tongSL(ArrayList<purchaseHistoryBean> history) {
+		return pay.tongSL(history);
+	}
+	public int tongThanhTien(ArrayList<purchaseHistoryBean> history) {
+		return pay.tongThanhTien(history);
+	}
+
+}

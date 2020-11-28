@@ -1,0 +1,79 @@
+<%@page import="bean.sachdetailBean"%>
+<%@page import="controller.sachdetail"%>
+<%@page import="func.funct"%>
+<%@page import="bean.SachBean"%>
+<%@ page pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<%@page import="bean.loaiBean"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="bo.loaiBo"%>
+<html>
+<head>
+<meta charset="utf-8">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+	rel="stylesheet">
+<script src="https://kit.fontawesome.com/7e31e7a48c.js"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/Style1.css">
+<title>Surface1989</title>
+</head>
+<body class="bg-light">
+	<%@include file="navbar.jsp"%>
+	<%
+		funct f = new funct();
+	%>
+	<div class="my-4">
+
+		<div class="row" style="background-color: #f0f0f0; margin: 0 6rem;">
+			<div class="col-md-3 bg-light">
+				<ul class="category p-0 m-0 " style="width: 100%;">
+					<%
+						funct fun = new funct();
+						ArrayList<loaiBean> listLoai = null;
+						if (request.getAttribute("listLoai") != null) {
+							listLoai = (ArrayList<loaiBean>) request.getAttribute("listLoai");
+							for (loaiBean loai : listLoai) {
+					%>
+					<li class="lk"><a
+						href="<%="category?ma=" + loai.getMaLoai()%>"><div
+								class="py-1 pl-3" style="width: 100%;"><%=loai.getTenLoai()%></div></a></li>
+					<%
+						}
+						}
+					%>
+				</ul>
+			</div>
+
+			<div class="col-md-9 px-0">
+				<%
+					sachdetailBean sach = null;
+					if (request.getAttribute("sach") != null) {
+						sach = (sachdetailBean) request.getAttribute("sach");
+				%>
+				<div class="row">
+					<div class="col-md-5">
+						<div class="m-4">
+							<img alt="<%=sach.getTensach()%>" src="<%=sach.getAnh()%>"
+								style="width: 100%;">
+						</div>
+					</div>
+					<div class="col-md-7">
+					<div class="m-4">
+						<h3><%=sach.getTensach()%></h3>
+						<p><%=sach.getDescription()%></p>
+						<h5><%=sach.getTacgia()%></h5>
+						<h3 class="text-danger"><%=fun.formart(sach.getGia())%>
+							VNĐ
+						</h3>
+					</div>
+				</div>
+				<%
+					}
+				%>
+			</div>
+		</div>
+	</div>
+	<%@include file="footer.jsp"%>
+</body>
+</html>

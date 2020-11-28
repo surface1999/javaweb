@@ -1,0 +1,64 @@
+package controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+import bean.billBean;
+import bean.purchaseHistoryBean;
+import bo.khachHangBo;
+import bo.payBo;
+
+
+@WebServlet("/history")
+public class historyController extends HttpServlet {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id = null;
+		String makh = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+		 for (Cookie cookie : cookies) {
+		   if (cookie.getName().equals("id")) {
+			   try {
+					khachHangBo kh = new khachHangBo();
+					makh = cookie.getValue();
+					id = kh.searchName(makh);
+			} catch (ClassNotFoundException | SQLException e) {
+				response.getWriter().println("Loi: " + e.getMessage());
+			}
+		    }
+		  }
+		}
+		if(request.getParameter("userID") != null) {
+			payBo pay = new payBo();
+			try {
+				int userID = Integer.parseInt(request.getParameter("userID"));
+				ArrayList<billBean> history = pay.getHistory(userID);
+				request.setAttribute("id", id);
+				request.setAttribute("userID", makh);
+				request.setAttribute("history", history);
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				response.getWriter().println("Loi: " + e.getMessage());
+			}
+			
+		}
+		request.getRequestDispatcher("history.jsp").forward(request, response);
+	}
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

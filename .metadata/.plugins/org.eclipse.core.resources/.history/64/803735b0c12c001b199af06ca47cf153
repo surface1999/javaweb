@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+
+.session{
+	width: 100vw;
+	min-height: 100vh;
+	background: #E7E8F2;
+	
+}
+.cart {
+	background-color: #ECECEA;
+}
+
+.pr{
+	padding: 15px 40px;
+}
+.checked{
+	background-color: #DED8CF;
+}

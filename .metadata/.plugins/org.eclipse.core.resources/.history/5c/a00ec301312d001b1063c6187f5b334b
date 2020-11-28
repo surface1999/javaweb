@@ -1,0 +1,108 @@
+package bo;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import bean.SachBean;
+import bean.cartBean;
+import dao.SachDao;
+import dao.payDao;
+
+public class cartBo {
+	ArrayList<cartBean> listCart = new ArrayList<cartBean>();
+	payDao pay = new payDao();
+	public ArrayList<cartBean> getListCart() {
+		return listCart;
+	}
+	public void setListCart(ArrayList<cartBean> listCart) {
+		this.listCart = listCart;
+	}
+	public int tongSL() {
+		int sum  = 0;
+		for (cartBean cart : listCart) {
+			sum += cart.getSoLuong();
+		}
+		return sum;
+	}
+	public void Them(String maSach) throws ClassNotFoundException, SQLException {
+		int n = listCart.size();
+		SachDao sachD = new SachDao();
+		SachBean sach = sachD.TimSachTheoMa(maSach);
+		if (n > 0) {
+			for (cartBean cart : listCart) {
+				if (cart.getMs().trim().equals(sach.getMasach().trim())) {
+					int sl = cart.getSoLuong() + 1;
+					cart.setSoLuong(sl);
+					cart.setThanhTien(cart.getGia() * sl);
+					return;
+				}
+			}
+			cartBean item = new cartBean(sach.getAnh(), sach.getMasach(), sach.getTensach(), sach.getGia(), 1);
+			listCart.add(item);
+		} else {
+			cartBean item = new cartBean(sach.getAnh(), sach.getMasach(), sach.getTensach(), sach.getGia(), 1);
+			listCart.add(item);
+		}
+
+	}
+
+	public void TangSL(String maSach) throws ClassNotFoundException, SQLException {
+		SachDao sachD = new SachDao();
+		SachBean sach = sachD.TimSachTheoMa(maSach);
+		for (cartBean cart : listCart) {
+			if (cart.getMs().trim().equals(sach.getMasach().trim())) {
+				int sl = cart.getSoLuong() + 1;
+				cart.setSoLuong(sl);
+				cart.setThanhTien(cart.getGia() * sl);
+				return;
+			}
+		}
+	}
+	
+	public void GiamSl(String maSach) throws ClassNotFoundException, SQLException {
+		SachDao sachD = new SachDao();
+		SachBean sach = sachD.TimSachTheoMa(maSach);
+		for (cartBean cart : listCart) {
+			if (cart.getTh().trim().equals(sach.getTensach().trim())) {
+				int sl = cart.getSoLuong() - 1;
+				if(sl > 0 ) {
+					cart.setSoLuong(sl);
+					cart.setThanhTien(cart.getGia() * sl);
+				}
+				else {
+					listCart.remove(cart);
+				}
+				return;
+			}
+		}
+	}
+	
+	public void Xoa(String maSach) throws ClassNotFoundException, SQLException {
+		SachDao sachD = new SachDao();
+		SachBean sach = sachD.TimSachTheoMa(maSach);
+		for (cartBean cart : listCart) {
+			if (cart.getTh().trim().equals(sach.getTensach().trim())) {
+					listCart.remove(cart);
+				return;
+			}
+		}
+	}
+	
+	public int TongTien() {
+		int sum = 0;
+		if(listCart.size() > 0) {
+			for( cartBean cart : listCart) {
+				sum += cart.getThanhTien();
+			}
+		}
+		return sum;
+	}
+	
+	public void pay(String makh) throws ClassNotFoundException, SQLException {
+		pay.pay(makh, listCart);
+	}
+
+
+}

@@ -1,0 +1,46 @@
+@charset "ISO-8859-1";
+
+body{
+	background: #01A9DB;
+}
+.calculator {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #F2F2F2;
+}
+
+form{
+	padding: 10px 5px;
+}
+
+.title {
+	color: #fff;
+	background: #FA5858;
+	padding: 10px 0;
+}
+
+.title h3 {
+	margin: 0 !important;
+}
+
+input[type=text]{
+	padding: 3px 5px 0;
+}
+
+.btn {
+	height: 25px;
+	width: 30px;
+	background: #FA5858;
+	border-radius: 5px;
+	border: none;
+	color: #ffff;
+}
+
+.btn:focus{
+		outline: none;
+}
+.btn[value="Reset"]{
+	width: 50px;
+}
